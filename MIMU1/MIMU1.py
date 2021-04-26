@@ -17,8 +17,8 @@ def run_commands(userName, userPass, machine, flow):
 def get_credentials():
     global userName 
     global userPass
-    userName = labuser
-    userPass = Hab12345
+    userName = "labuser"
+    userPass = "Hab12345"
 
     #print("Enter credentials")
     #userName = input("Username: ")
@@ -34,9 +34,11 @@ def run_on_list():
     flow = ['echo host_name', 'hostname', 'echo os_ver', 'cat /etc/os-release | grep PRETTY_NAME ', 'echo kernel_ver', 'uname -r', 'echo os_type', 'uname -s']
     
     dic = from_json_file_to_dic()
-    for key in dic:
-        machine = dic.get[host_name]
-        x += run_commands(userName, userPass, machine, flow)
+    for item in dic:
+        for key in item:
+            if(key == "host_name"):
+                machine = item[key]
+                x += run_commands(userName, userPass, machine, flow)
     return x
 
 def from_json_file_to_dic():
@@ -47,7 +49,7 @@ def from_json_file_to_dic():
 
 def dump_to_json_file(dic):
     json_dic = json.dumps(dic, indent = 4)
-    jsonFile = open('jsonModel.json', 'w')
+    jsonFile = open('C:\\Users\\ozadaka\\source\\repos\\QuickCM\\jsonModel.json', 'w')
     jsonFile.write(json_dic)
     jsonFile.close()
 
@@ -74,5 +76,6 @@ def list_to_dictionary(host_list):
 if __name__ == '__main__':
     get_credentials()
     list_to_dictionary(split_string(run_on_list()))
+
 
 
